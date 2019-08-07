@@ -1,14 +1,9 @@
-(defpackage "Tonnetz"
-    (:nicknames :tnetz)
-    (:use "COMMON-LISP" "CL-USER" "OM-API"  "LISPWORKS" "HCL" "OM-LISP" "OPENGL")
-    (:import-from "CL-USER")
-    (:export :tonnetz :addm12 :compose :interval :eq2 :traversal :pairs :computeMelody :computePath :stringNote :iota :tstandard :nol :transpose :acc-tonnetz :scanl :scanl1 :tstandardi :ttoneleadi :tonnetz2cs :chordseq2t :tonnetz-view :note-view)
-)
+(in-package :om)
 
-(om::compile&load (om::om-relative-path '("src") "tonnetz-utils")) ;; Engine
-(om::compile&load (om::om-relative-path '("src") "tonnetz")) ;; main object
-(om::compile&load (om::om-relative-path '("src") "tonnetz-editor")) ;; Main file
-
+(om::compile&load (om::om-relative-path '("sources") "tonnetz-editor"))
+(om::compile&load (om::om-relative-path '("sources") "tonnetz-tiles"))
+(om::compile&load (om::om-relative-path '("sources") "tonnetz-view"))
+(om::compile&load (om::om-relative-path '("sources") "tonnetz-utils"))
 
 (setf *tonnetz-lib* (om::find-library "Tonnetz"))
 
@@ -18,6 +13,6 @@
 (om::AddPackage2pack *Utils* *tonnetz-lib*)
 (om::AddPackage2pack *Tonnetz* *tonnetz-lib*)
 
-(om::AddLispFun2Pack '(transpose inverse compose interval computePath computeMelody scanl scanl1 transpose-chords transchord) *Utils*)
-(om::AddLispFun2Pack '(make-generators chordseq2t tonnetz2cs tonnetz-transpose) *Tonnetz*)
-(om::addclass2pack '(tnetz:tonnetz) *Tonnetz*)
+(om::AddLispFun2Pack '(netz-transpose netz-inverse netz-compose netz-interval netz-computepath netz-computemelody scanl scanl-minus tonnetz-transpose-chords netz-convert2mc) *Utils*)
+(om::AddGenFun2Pack '(cseq2netz netz2cseq transpose-tonnetz) *Tonnetz*)
+(om::addclass2pack '(tonnetz) *Tonnetz*)
