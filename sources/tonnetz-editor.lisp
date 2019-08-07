@@ -436,7 +436,7 @@
                                                  (reduce #'om-add-points (mapcar #'gen-to-vect ti))
                                                (gen-to-vect ti))) path))
                (coords (scanl #'om-add-points (om-make-point (/ x2 2) (/ y2 2)) tcoords)))
-          (print coords)
+          ;; (print coords)
           (om-with-focused-view view
             (loop for point in coords do
                   (let ((xc (om-point-x point))
