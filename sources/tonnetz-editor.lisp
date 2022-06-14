@@ -451,7 +451,7 @@
 
 ; Converts a Chord-Seq into a Tone Network.
 
-(defmethod* cseq2netz ((cs chord-seq))
+(defmethod! cseq2netz ((cs chord-seq))
   :doc "Converts a Chord-Seq into a Tone Network."
   :indoc '("Chord-Seq")
   :outdoc '("The Tone Network representing the Chord-Seq's chords.")
@@ -460,7 +460,7 @@
 
 ; Converts a Tone Network into a Chord-Seq.
 
-(defmethod* netz2cseq ((ton tonnetz))
+(defmethod! netz2cseq ((ton tonnetz))
   :doc "Converts a Tone Network into a Chord-Seq."
   :indoc '("Tone Network")
   :outdoc '("The Chord-Seq representing the Tone Network's chords.")
@@ -469,7 +469,7 @@
 
 ; Transposes a Tone Network given a direction defined by one of its generators.
 
-(defmethod* transpose-tonnetz ((ton tonnetz) n-gen)
+(defmethod! transpose-tonnetz ((ton tonnetz) n-gen)
    :doc "Transposes a Tone Network's path following the axis defined by one of its generators."
    :indoc '("Tone Network" "Integer : index of one of its generators.")
    :outdoc '("The transposed Tone Network.")

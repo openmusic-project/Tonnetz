@@ -1,18 +1,66 @@
 (in-package :om)
 
-(om::compile&load (om::om-relative-path '("sources") "tonnetz-editor"))
-(om::compile&load (om::om-relative-path '("sources") "tonnetz-tiles"))
-(om::compile&load (om::om-relative-path '("sources") "tonnetz-view"))
-(om::compile&load (om::om-relative-path '("sources") "tonnetz-utils"))
+;--------------------------------------------------
+;Variable definiton with files to load 
+;--------------------------------------------------
 
-(setf *tonnetz-lib* (om::find-library "Tonnetz"))
+(defvar *tonnetz-files* nil)
+(setf *tonnetz-files* (list
+                       (om::compile&load (om::om-relative-path '("sources") "tonnetz-editor"))
+                       (om::compile&load (om::om-relative-path '("sources") "tonnetz-tiles"))
+                       (om::compile&load (om::om-relative-path '("sources") "tonnetz-view"))
+                       (om::compile&load (om::om-relative-path '("sources") "tonnetz-utils"))
+))
 
-(defvar *Utils* (om::omng-make-new-package "Utils"))
-(defvar *Tonnetz* (om::omng-make-new-package "Tonnetz"))
+;Loading files 
+;--------------------------------------------------
+(mapc #'compile&load *tonnetz-files*)
+;--------------------------------------------------
+; OM subpackages initialization
+; ("sub-pack-name" subpacke-lists class-list function-list class-alias-list)
+;--------------------------------------------------
 
-(om::AddPackage2pack *Utils* *tonnetz-lib*)
-(om::AddPackage2pack *Tonnetz* *tonnetz-lib*)
+(defvar *subpackages-karim-var* nil)
+(setf *subpackages-Tonnetz-var*
+      '(
+        ("Tonnetz" nil nil (cseq2netz 
+                            netz2cseq
+                            transpose-tonnetz
+                            ) nil)
+        ("Utils" nil nil (netz-transpose 
+                          netz-inverse 
+                          netz-compose 
+                          netz-interval 
+                          netz-computepath 
+                          netz-computemelody 
+                          scanl 
+                          scanl-minus 
+                          tonnetz-transpose-chords 
+                          netz-convert2mc
+                          ) nil)
+        (nil nil (tonnetz))
+        ))
+      
 
-(om::AddLispFun2Pack '(netz-transpose netz-inverse netz-compose netz-interval netz-computepath netz-computemelody scanl scanl-minus tonnetz-transpose-chords netz-convert2mc) *Utils*)
-(om::AddGenFun2Pack '(cseq2netz netz2cseq transpose-tonnetz) *Tonnetz*)
-(om::addclass2pack '(tonnetz) *Tonnetz*)
+;--------------------------------------------------
+;filling packages
+;--------------------------------------------------
+
+(om::fill-library *subpackages-Tonnetz-var*)
+
+(om-print "
+;;;============================================================
+;;
+;;
+;;          $Revision: 1.12 $
+;;     $Date: 2006/04/24 21:33:29 $
+;;; (c) Ircam -  - 2022
+;;;============================================================
+")
+
+;;; (gen-lib-reference (find-library "Tonnetz"))
+
+
+;(setf *tonnetz-lib* (om::find-library "Tonnetz"))
+
+
