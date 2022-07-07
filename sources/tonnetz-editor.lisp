@@ -1,8 +1,8 @@
 (in-package :om)
 
 (defclass! tonnetz ()
-  ((gens :accessor gens :initform tstandardinv :initarg :gens)
-   (chords :accessor chords :initform nil :initarg :chords))
+  ((gens :accessor gens :initform 'tstandardinv :initarg :gens)
+   (chords :accessor chords :initform '((0 4 7)) :initarg :chords))
   (:icon 3470)
   (:documentation "Represents the diagram of a triadic Tone Network (Tonnetz) with three generators as well as a chord-list (here, a list of lists of pitches) as arguments."))
 
@@ -31,7 +31,7 @@
   (values ; names/accessors
           (list "self" "gens" "chords")
           ; default values
-          (list nil 'tstandardinv nil)
+          (list nil 'tstandardinv '((0 4 7)))
           ; doc
           (list "Object" "Generators" "Chords")
           ; menus
@@ -61,7 +61,9 @@
 (defmethod initialize-instance ((self tonnetz) &rest args)
   (call-next-method)
   (if (symbolp (gens self))
-      (setf (gens self) (eval (gens self)))))
+      (setf (gens self) (eval (gens self))))
+  (when (chords self) (setf (chords self) (chords self)))
+  )
 
 (defun from-path (path cols lines)
   "Computes the position in the grid from a Tonnetz path"
@@ -483,3 +485,12 @@
 (defun make-generators (n1 n2 n3)
   "Creates a list of generators given three modulo 12 natural numbers (representing intervals)."
   (list (netz-interval 0 n1) (netz-interval 0 n2) (netz-interval 0 n3)))
+
+
+
+(defmethod omNG-save ((self tonnetz) &optional (values? nil)) (print "ME SAVING")
+  (let ((theclass (class-name (class-of self))))
+  `(make-instance ',theclass
+     :gens 'tstandardinv
+     :chords ',(chords self)
+     )))
