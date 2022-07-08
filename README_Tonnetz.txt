@@ -41,5 +41,5 @@ Remember to always attach a second-order list of pitches to the box before evalu
 
 '-'  — Decreases the Zoom Level (the tiles' size.) 
 
-These are only some of the key commands, we'll let you figure out the rest.
+These are only some of the key commands. Use the 'h' key for more help.
 
