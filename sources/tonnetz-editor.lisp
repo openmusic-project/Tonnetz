@@ -154,8 +154,8 @@
                                                (om-make-point 10 55)
                                                (om-make-point 120 20)
                                                (chord-text self)
-                                               :fg-color #+cocoa *om-white-color* #+linux *om-black-color*
-                                               :bg-color :transparent
+                                               :fg-color #+cocoa *om-white-color* #+(or linux win32) *om-black-color*
+                                               :bg-color #+cocoa :transparent #+(or linux win32) *om-white-color*
                                                ))
                     ; Lists the available generators when clicked on, toggles and displays the Tone Network according to the current ones.
                     (om-make-dialog-item 'om-pop-up-dialog-item
