@@ -342,37 +342,59 @@
          (netz-modify-current self 0))    
     (#\Space ; Plays the current chord.
          (netz-play-chord self))
-    (#\0 ; Clears the Tone Network's main view.
+    (:om-key-esc ; Clears the Tone Network's main view.
          (erase-notes self))
     (#\- ; Decreases the Zoom Level (the tiles' size.)
          (resize-tiles self 0.875))
     (#\+ ; Increases the Zoom Level (the tiles' size.)
          (resize-tiles self 1.125))
-    (#\o ; Toggles the opening chord, and plays it if "Auto-play" is enabled — identical to "left-arrow" key command, only here to accompany the "p" key command.
+    (#\t ; Toggles the opening chord, and plays it if "Auto-play" is enabled — identical to "left-arrow" key command, only here to accompany the "p" key command. ;;marche pas!
          (netz-modify-current self 0))    
     (#\p ; Plays the current chord and toggles the next — only use it if "Auto-play" is disabled, otherwise use the "space" and "right-arrow" key commands.
          (netz-play-chord self)
          (netz-modify-current self (mod (+ 1 (currentchord self)) (max-level (main-view self)))))
-    (#\z (print "Zzzz"))    
+   ; (#\z (print "Zzzz"))
+
+    (#\h (show-help-window (format nil "Commands for ~A Editor" 
+                                          (string-upcase (class-name (class-of (object (editor self)))))) 
+                           (get-help-list self)))
 
     ; Transposition key commands.
-
-    (#\t
-     (netz-transpose-chords self 5))
-    (#\y
-     (netz-transpose-chords self 2))
-    (#\h
-     (netz-transpose-chords self 3))
-    (#\f 
-     (netz-transpose-chords self 4))
-    (#\v 
+    
+    (#\0 
      (netz-transpose-chords self 0))
-    (#\b
+    (#\1
      (netz-transpose-chords self 1))
+    (#\2
+     (netz-transpose-chords self 2))
+    (#\3
+     (netz-transpose-chords self 3))
+    (#\4 
+     (netz-transpose-chords self 4))
+    (#\5
+     (netz-transpose-chords self 5))
 
     (otherwise (print nil)))
   (om-invalidate-view self)
   )
+
+
+(defmethod get-help-list ((self tonnetz-editor)) 
+  (list '(("lr" "Toggles next chord")
+          (("-") "Decrease zoom")
+          (("+") "Increase zoom")
+          ("space" "Plays current chord")
+          ("esc" "Clears Network's main view")
+          ; (("t") "Toggles chord and plays it if Auto-play is enabled")
+          )
+        '((("0") "Transpose chords by 0")
+          (("1") "Transpose chords by 1")
+          (("2") "Transpose chords by 2")
+          (("3") "Transpose chords by 3")
+          (("4") "Transpose chords by 4")
+          (("5") "Transpose chords by 5")
+          )))
+
 
 ; Redraws a Tone Network with resized tiles by a factor of one's choice. 
 
