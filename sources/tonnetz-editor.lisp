@@ -98,7 +98,7 @@
 (defmethod initialize-instance ((self tonnetz-editor) &rest args)
   "Initializes the tonnetz-editor window."
   (call-next-method)
-  (om-set-bg-color self (om-make-color 0.25 0.25 0.25))
+  (om-set-bg-color self (om-make-color 0.4 0.4 0.4))
   (setf (main-view self) 
         (om-make-view 'tonnetz-view 
                       :position (om-make-point 20 20)
@@ -154,7 +154,7 @@
                                                (om-make-point 10 55)
                                                (om-make-point 120 20)
                                                (chord-text self)
-                                               :fg-color *om-white-color*
+                                               :fg-color #+cocoa *om-white-color* #+linux *om-black-color*
                                                :bg-color :transparent
                                                ))
                     ; Lists the available generators when clicked on, toggles and displays the Tone Network according to the current ones.
@@ -311,7 +311,8 @@
     (setf (chords (object self))
           (mapcar (lambda (l) (mapcar (lambda (el) (funcall trans el)) l)) (chords (object self)))))
   (erase-notes self)
-  (light-notes self))
+  (light-notes self)
+  (update-subviews self))
 
 (defun netz-convert2mc (tchord)
   "Converts a list of pitches (from a Tone Network) into a list of midicents."
@@ -330,7 +331,8 @@
   (setf (currentchord self) n)
   (om-set-dialog-item-text (chord-text-view (controls-view self)) (chord-text self))
   (when (autoplay self)
-    (netz-play-chord self)))
+    (netz-play-chord self))
+  (update-subviews self))
 
 ; Defines the key commands available.
 
