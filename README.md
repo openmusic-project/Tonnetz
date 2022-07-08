@@ -1,5 +1,8 @@
 # tonnetz
 
-Work-in-progress: Tonnetz representation in OM
+Tonnetz representation in OM
 
-D. Diverio, IRCAM, 2014
+D. Diverio (c)  IRCAM 2014
+
+Updated:
+K. Haddad  (c)  IRCAM 2022
